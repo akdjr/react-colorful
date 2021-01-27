@@ -7,17 +7,19 @@ import { hsvaToHslaString } from "../../utils/convert";
 import { formatClassName } from "../../utils/format";
 import { clamp } from "../../utils/clamp";
 import { round } from "../../utils/round";
-import { HsvaColor } from "../../types";
+import { HsvaColor, Orientation } from "../../types";
+import getInteractionValueFromOrientation from "../../utils/orientation";
 
 interface Props {
   className?: string;
   hsva: HsvaColor;
   onChange: (newAlpha: { a: number }) => void;
+  orientation?: Orientation;
 }
 
-export const Alpha = ({ className, hsva, onChange }: Props): JSX.Element => {
+export const Alpha = ({ className, hsva, onChange, orientation = "horizontal" }: Props): JSX.Element => {
   const handleMove = (interaction: Interaction) => {
-    onChange({ a: interaction.left });
+    onChange({ a: getInteractionValueFromOrientation(interaction, orientation) });
   };
 
   const handleKey = (offset: Interaction) => {
@@ -29,9 +31,10 @@ export const Alpha = ({ className, hsva, onChange }: Props): JSX.Element => {
   // to prevent adding the polyfill (about 150 bytes gzipped)
   const colorFrom = hsvaToHslaString(Object.assign({}, hsva, { a: 0 }));
   const colorTo = hsvaToHslaString(Object.assign({}, hsva, { a: 1 }));
+  const gradientOrientation = (orientation === "vertical") ? '180deg' : '90deg';
 
   const gradientStyle = {
-    backgroundImage: `linear-gradient(90deg, ${colorFrom}, ${colorTo})`,
+    backgroundImage: `linear-gradient(${gradientOrientation}, ${colorFrom}, ${colorTo})`,
   };
 
   const nodeClassName = formatClassName(["react-colorful__alpha", className]);
@@ -45,11 +48,19 @@ export const Alpha = ({ className, hsva, onChange }: Props): JSX.Element => {
         aria-label="Alpha"
         aria-valuetext={`${round(hsva.a * 100)}%`}
       >
-        <Pointer
-          className="react-colorful__alpha-pointer"
-          left={hsva.a}
-          color={hsvaToHslaString(hsva)}
-        />
+        {orientation === "vertical" ?
+          <Pointer
+            className="react-colorful__alpha-pointer"
+            top={hsva.a}
+            color={hsvaToHslaString(hsva)}
+          />
+          :
+          <Pointer
+            className="react-colorful__alpha-pointer"
+            left={hsva.a}
+            color={hsvaToHslaString(hsva)}
+          />
+        }
       </Interactive>
     </div>
   );

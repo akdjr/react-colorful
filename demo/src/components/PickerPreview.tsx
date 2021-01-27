@@ -5,9 +5,11 @@ interface Props<T extends AnyColor> {
   title: string;
   PickerComponent: React.ComponentType<Partial<ColorPickerBaseProps<T>>>;
   initialColor: T;
+  className?: string;
 }
 
 export function PickerPreview<T extends AnyColor>({
+  className = "preview__demo",
   title,
   PickerComponent,
   initialColor,
@@ -22,7 +24,7 @@ export function PickerPreview<T extends AnyColor>({
   return (
     <div className="preview">
       <div className="preview__title">{title}</div>
-      <PickerComponent className="preview__demo" color={color} onChange={handleChange} />
+      <PickerComponent className={className} color={color} onChange={handleChange} />
       <div className="preview__output">{JSON.stringify(color)}</div>
     </div>
   );

@@ -44,3 +44,5 @@ export interface ColorPickerBaseProps<T extends AnyColor> {
   color: T;
   onChange: (newColor: T) => void;
 }
+
+export type Orientation = "horizontal" | "vertical";

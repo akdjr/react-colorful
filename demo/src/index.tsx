@@ -34,6 +34,7 @@ import { useFaviconColor } from "./hooks/useFaviconColor";
 import { useBodyBackground } from "./hooks/useBodyBackground";
 import { useStargazerCount } from "./hooks/useStargazerCount";
 import "./css/styles.css";
+import { RgbaColorPickerVertical } from "../../src/components/RgbaColorPickerVertical";
 
 // See http://www.w3.org/TR/AERT#color-contrast
 const getBrightness = ({ r, g, b }: RgbaColor) => (r * 299 + g * 587 + b * 114) / 1000;
@@ -122,6 +123,12 @@ const Demo = () => {
             title="RGBA"
             PickerComponent={RgbaColorPicker}
             initialColor={{ r: 60, g: 80, b: 120, a: 0.5 }}
+          />
+          <PickerPreview<RgbaColor>
+            title="RGBA Vertical"
+            PickerComponent={RgbaColorPickerVertical}
+            initialColor={{ r: 60, g: 80, b: 120, a: 0.5 }}
+            className="picker__demo picker__vertical"
           />
           <PickerPreview<string>
             title="RGBA String"

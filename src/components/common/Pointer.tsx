@@ -4,11 +4,11 @@ import { formatClassName } from "../../utils/format";
 interface Props {
   className?: string;
   top?: number;
-  left: number;
+  left?: number;
   color: string;
 }
 
-export const Pointer = ({ className, color, left, top = 0.5 }: Props): JSX.Element => {
+export const Pointer = ({ className, color, left = 0.5, top = 0.5 }: Props): JSX.Element => {
   const nodeClassName = formatClassName(["react-colorful__pointer", className]);
 
   const style = {
